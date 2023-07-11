@@ -41,6 +41,8 @@ function Home() {
       if (arr.length === 5) arr.pop();
       arr.unshift(name);
       arr = [...new Set(arr)];
+      }else{
+        arr.push(name);
       }
       setLocalStore(arr);
       localStorage.setItem("oldSearch", JSON.stringify(arr));
