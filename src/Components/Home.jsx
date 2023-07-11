@@ -37,7 +37,7 @@ function Home() {
       setResult(response.data);
       setHeading(name);
       var arr = JSON.parse(localStorage.getItem("oldSearch"));
-      if (arr.length === 5) arr.pop();
+      if (arr && arr.length === 5) arr.pop();
       arr.unshift(name);
       arr = [...new Set(arr)];
       setLocalStore(arr);
