@@ -1,0 +1,98 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  width: 800px;
+  @media (max-width:850px) {
+    flex-direction: column;
+    width: 400px;
+}
+@media (max-width:450px) {
+    width: 350px;
+}
+}
+
+.inputFeild{
+   width: 100%;
+}
+
+.form-button{
+    display: flex;
+    flex-direction: row;
+    @media (max-width:850px) {
+        width: 400px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    @media (max-width:450px) {
+        width: 350px;
+    }
+}
+
+.form-button Button{
+   margin-left: 20px;
+}
+
+
+.dropDownContainer{
+width: 100%;
+position: relative;
+}
+
+.dropDown{
+    margin-top: 5px;
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 6px;
+    height: auto;
+    max-height: 40vh;
+    overflow:auto;
+}
+
+.option{
+    display: flex;
+    align-items: center;
+    height: 36px;
+    cursor: pointer;
+    background-color: white;
+    width: 100%;
+}
+.option i {
+    margin: 0 10px;
+}
+
+.option:hover{
+    background-color: rgb(231, 229, 229);
+}
+
+.oldOption{
+    display: flex;
+    position: relative;
+    background-color: white;
+}
+
+
+
+.clearButton{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}

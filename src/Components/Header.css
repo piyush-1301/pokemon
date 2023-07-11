@@ -1,0 +1,19 @@
+.navigationBar{
+    display: flex;
+    height: 70px;
+    padding: 0px 20px;
+    align-items: center;
+    width: 100%;
+    z-index: 10;
+    border-bottom: 1px solid rgb(231, 229, 229);
+    background-color: white;
+    @media (max-width:768px) {
+        justify-content: center;
+    }
+}
+
+.pokeBall{
+    @media (max-width:768px) {
+        display: none;
+    }
+}
