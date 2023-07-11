@@ -16,13 +16,6 @@
   display: flex;
   justify-content: center;
   width: 800px;
-  @media (max-width:850px) {
-    flex-direction: column;
-    width: 400px;
-}
-@media (max-width:450px) {
-    width: 350px;
-}
 }
 
 .inputFeild{
@@ -32,12 +25,22 @@
 .form-button{
     display: flex;
     flex-direction: row;
-    @media (max-width:850px) {
+}
+
+@media only screen and (max-width:850px) {
+    .form{
+        flex-direction: column;
+    width: 400px;
+    }
+    .form-button{
         width: 400px;
         justify-content: center;
         margin-top: 10px;
     }
-    @media (max-width:450px) {
+}
+ 
+@media only screen and (max-width:450px) {
+    .form .form-button{
         width: 350px;
     }
 }
