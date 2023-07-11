@@ -42,6 +42,7 @@ function Home() {
       arr.unshift(name);
       arr = [...new Set(arr)];
       }else{
+        arr = new Array();
         arr.push(name);
       }
       setLocalStore(arr);
