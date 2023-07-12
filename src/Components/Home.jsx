@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import "./Home.css";
@@ -7,26 +7,30 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useComponentVisible from "./useComponentVisible";
+import Header from "./Header";
+import PokemonNameContext from "../Context/PokemonName/PokemonNameContext";
+
 
 function Home() {
   var url = "https://pokeapi.co/api/v2/pokemon";
   const [result, setResult] = useState("");
   const [name, setName] = useState("");
   const [heading, setHeading] = useState("");
-  const [dropdownData, setDropDownData] = useState([]);
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(true);
   const [localStore,setLocalStore] = useState(JSON.parse(localStorage.getItem("oldSearch")));
-
+  const d = useContext(PokemonNameContext);
   useEffect(() => {
+    if(d.state.length === 0){
     axios
       .get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1300")
       .then((res) => {
-        console.log(res.data);
-        return setDropDownData(res.data.results);
+        return d.setState(res.data.results);
       })
       .catch((error) => console.error(error));
+    }
       setIsComponentVisible(false);
+      // eslint-disable-next-line
   }, []);
 
   async function getPokemonByName(name) {
@@ -42,7 +46,7 @@ function Home() {
       arr.unshift(name);
       arr = [...new Set(arr)];
       }else{
-        arr = new Array();
+        arr = [];
         arr.push(name);
       }
       setLocalStore(arr);
@@ -88,6 +92,10 @@ function Home() {
 
 
   return (
+    <>    
+
+    <Header/>
+
     <div className="homeContainer">
       <ToastContainer />
       <div className="formContainer">
@@ -105,13 +113,12 @@ function Home() {
                 {localStore &&
                   localStore.map(
                     (data, index) => (
-                      <div className="oldOption">
+                      <div className="oldOption" key={index+" "+Math.random()}>
                         <div
-                          key={index}
                           className="option"
                           onClick={() => onSearch(data)}
                         >
-                          <i class="bi bi-arrow-counterclockwise"></i>
+                          <i className="bi bi-arrow-counterclockwise"></i>
                           {data}
                         </div>
                         <button
@@ -119,12 +126,12 @@ function Home() {
                           type="button"
                           onClick={() => removeItemFromLocalStorage(index)}
                         >
-                          <i class="bi bi-x-lg"></i>
+                          <i className="bi bi-x-lg"></i>
                         </button>
                       </div>
                     )
                   )}
-                {dropdownData
+                {d.state
                   .filter((data) => {
                     const searchTerm = name
                       .trim()
@@ -140,12 +147,12 @@ function Home() {
                   })
                   .map((data, index) => (
                     <div
-                      key={index}
+                      key={data+" "+index}
                       className="option"
                       onClick={() => onSearch(data.name)}
                     >
                       <i className="bi bi-search"></i>
-                      <span style={{ "font-weight": "bold" }}>
+                      <span style={{ "fontWeight": "bold" }}>
                         {name.trim().split(" ").join("-").toLowerCase()}
                       </span>
                       {data.name.substring(
@@ -173,6 +180,7 @@ function Home() {
       )}
       {result && <Details result={result} />}
     </div>
+    </>
   );
 }
 
