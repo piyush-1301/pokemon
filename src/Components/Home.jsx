@@ -19,6 +19,8 @@ function Home() {
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(true);
   const [localStore,setLocalStore] = useState(JSON.parse(localStorage.getItem("oldSearch")));
+
+
   const d = useContext(PokemonNameContext);
   useEffect(() => {
     if(d.state.length === 0){
@@ -53,7 +55,7 @@ function Home() {
       localStorage.setItem("oldSearch", JSON.stringify(arr));
       console.log(result);
     } catch (error) {
-      toast.error("Not Found");
+      toast.error("Not Found",{position:"top-center"});
       console.error(error);
     }
   }
@@ -68,7 +70,7 @@ function Home() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) {
-      toast.error("please enter any name");
+      toast.error("please enter any name",{position:"top-center"});
       return;
     }
     setResult("");
@@ -97,7 +99,7 @@ function Home() {
     <Header/>
 
     <div className="homeContainer">
-      <ToastContainer />
+      <ToastContainer position="top-center"/>
       <div className="formContainer">
         <Form onSubmit={handleSubmit} className="form">
           <div className="dropDownContainer" ref={ref}>
