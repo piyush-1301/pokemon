@@ -27,6 +27,23 @@
     flex-direction: row;
 }
 
+
+.deleteButtonContainer{
+    width : 830px;
+    position: absolute;
+    top : 70px;
+}
+
+.deleteButton{
+    border-radius: 100%;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border: 1px solid red;
+    left: 0;
+}
+
+
 @media only screen and (max-width:850px) {
     .form{
         flex-direction: column;
@@ -37,11 +54,23 @@
         justify-content: center;
         margin-top: 10px;
     }
+    .deleteButtonContainer{
+        width: 430px;
+        top:60px
+    }
 }
  
 @media only screen and (max-width:450px) {
     .form .form-button{
         width: 350px;
+    }
+    .deleteButtonContainer{
+        width: 370px;
+        top:45px
+    }
+    .deleteButton{
+        width: 30px;
+        height: 30px;
     }
 }
 
@@ -53,6 +82,7 @@
 .dropDownContainer{
 width: 100%;
 position: relative;
+z-index: 10;
 }
 
 .dropDown{
@@ -99,3 +129,4 @@ position: relative;
     bottom: 0;
     top: 0;
 }
+

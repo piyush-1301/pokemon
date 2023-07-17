@@ -9,19 +9,23 @@ import "react-toastify/dist/ReactToastify.css";
 import useComponentVisible from "./useComponentVisible";
 import Header from "./Header";
 import PokemonNameContext from "../Context/PokemonName/PokemonNameContext";
+import { useDispatch, useSelector } from "react-redux";
+import { addPokemon,deletePokemon, resetPokemon } from "../Actions/index";
 
 
 function Home() {
   var url = "https://pokeapi.co/api/v2/pokemon";
-  const [result, setResult] = useState("");
   const [name, setName] = useState("");
-  const [heading, setHeading] = useState("");
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(true);
   const [localStore,setLocalStore] = useState(JSON.parse(localStorage.getItem("oldSearch")));
-
-
   const d = useContext(PokemonNameContext);
+
+
+  // redux
+  const myState = useSelector((state) => state.addDelete)
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if(d.state.length === 0){
     axios
@@ -40,8 +44,7 @@ function Home() {
       const response = await axios.get(url + "/" + name);
       setIsComponentVisible(false);
       console.log(response.data);
-      setResult(response.data);
-      setHeading(name);
+      dispatch(addPokemon(response.data));
       var arr = JSON.parse(localStorage.getItem("oldSearch"));
       if(arr){
       if (arr.length === 5) arr.pop();
@@ -53,7 +56,6 @@ function Home() {
       }
       setLocalStore(arr);
       localStorage.setItem("oldSearch", JSON.stringify(arr));
-      console.log(result);
     } catch (error) {
       toast.error("Not Found",{position:"top-center"});
       console.error(error);
@@ -62,9 +64,7 @@ function Home() {
 
   const onSearch = (name) => {
     setName(name);
-    setResult("");
     getPokemonByName(name);
-    setHeading("");
   };
 
   const handleSubmit = (e) => {
@@ -73,17 +73,18 @@ function Home() {
       toast.error("please enter any name",{position:"top-center"});
       return;
     }
-    setResult("");
     getPokemonByName(name.trim().split(" ").join("-").toLowerCase());
-    setHeading("");
     console.log(name);
   };
 
   const handleReset = () => {
-    setHeading("");
     setName("");
-    setResult("");
+    dispatch(resetPokemon());
   };
+
+  const handleDelete = (index) =>{
+    dispatch(deletePokemon(index));
+  }
 
   const removeItemFromLocalStorage = (index) => {
     var arr = JSON.parse(localStorage.getItem("oldSearch"));
@@ -175,12 +176,17 @@ function Home() {
           </Form.Group>
         </Form>
       </div>
-      {heading && (
+      {myState.map((details,index) => {
+        return <div style={{'display':'flex','flexDirection':'column','alignItems':'center','position':'relative'}}>
         <h1 style={{ textAlign: "center", margin: "10px" }}>
-          {heading.charAt(0).toUpperCase() + heading.slice(1).toLowerCase()}
+          {details.name.charAt(0).toUpperCase() + details.name.slice(1).toLowerCase()}
         </h1>
-      )}
-      {result && <Details result={result} />}
+         <Details result={details}></Details>
+         <div className= "deleteButtonContainer">
+         <button className="deleteButton" key = {index} onClick={()=>handleDelete(index)}><i className="bi bi-x-lg" style={{'color':'red'}}></i></button>
+         </div>
+         </div>
+      })}
     </div>
     </>
   );
